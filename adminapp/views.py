@@ -160,6 +160,13 @@ def subject_create(request):
     form = SubjectForm(request.POST or None, instance=model)
     if request.POST and form.is_valid():
         form.save()
+        actions = request.session.get('actions', [])
+        actions += [f"You created subject: {request.POST.get('name')}"]
+        request.session["actions"] = actions
+
+        subject_count = request.session.get('subject_count', 0)
+        subject_count += 1
+        request.session["subject_count"] = subject_count
         return redirect('subject_list')
     ctx = {
         "model":model,
@@ -204,10 +211,13 @@ def teacher_create(request):
     form = TeacherForm(request.POST or None, instance=model)
     if request.POST and form.is_valid():
         form.save()
-        actions = request.session.get('actions',[])
-        actions += [f"You added teacher: {request.POST.get('first_name')}"]
+        actions = request.session.get('actions', [])
+        actions += [f"You created teacher: {request.POST.get('name')}"]
         request.session["actions"] = actions
 
+        teacher_count = request.session.get('teacher_count', 0)
+        teacher_count += 1
+        request.session["teacher_count"] = teacher_count
         return redirect('teacher_list')
     ctx = {
         "model":model,
@@ -252,6 +262,13 @@ def group_create(request):
     form = GroupForm(request.POST or None, instance=model)
     if request.POST and form.is_valid():
         form.save()
+        actions = request.session.get('actions', [])
+        actions += [f"You created group: {request.POST.get('name')}"]
+        request.session["actions"] = actions
+
+        group_count = request.session.get('group_count', 0)
+        group_count += 1
+        request.session["group_count"] = group_count
         return redirect('group_list')
     ctx = {
         "model":model,
@@ -296,6 +313,13 @@ def student_create(request):
     form = StudentForm(request.POST or None, request.FILES or None, instance=model)
     if request.POST and form.is_valid():
         form.save()
+        actions = request.session.get('actions', [])
+        actions += [f"You created student: {request.POST.get('name')}"]
+        request.session["actions"] = actions
+
+        student_count = request.session.get('student_count', 0)
+        student_count += 1
+        request.session["student_count"] = student_count
         return redirect('student_list')
     ctx = {
         "model":model,
