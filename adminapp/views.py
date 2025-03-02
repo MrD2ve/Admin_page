@@ -51,6 +51,13 @@ def faculty_create(request):
     form = FacultyForm(request.POST or None, instance=model)
     if request.POST and form.is_valid():
         form.save()
+        actions = request.session.get('actions', [])
+        actions += [f"You created faculty: {request.POST.get('name')}"]
+        request.session["actions"] = actions
+
+        faculty_count = request.session.get('faculty_count', 0)
+        faculty_count += 1
+        request.session["faculty_count"] = faculty_count
         return redirect('faculty_list')
     ctx = {
         "model":model,
@@ -64,6 +71,9 @@ def faculty_edit(request,pk):
     form = FacultyForm(request.POST or None, instance=model)
     if request.POST and form.is_valid():
         form.save()
+        actions = request.session.get('actions', [])
+        actions += [f"You edited faculty: {request.POST.get('name')}"]
+        request.session["actions"] = actions
         return redirect('faculty_list')
     ctx = {
         "model":model,
@@ -163,6 +173,9 @@ def subject_edit(request,pk):
     form = SubjectForm(request.POST or None, instance=model)
     if request.POST and form.is_valid():
         form.save()
+        actions = request.session.get('actions', [])
+        actions += [f"You edited subject: {request.POST.get('name')}"]
+        request.session["actions"] = actions
         return redirect('subject_list')
     ctx = {
         "model":model,
@@ -208,6 +221,9 @@ def teacher_edit(request,pk):
     form = TeacherForm(request.POST or None, instance=model)
     if request.POST and form.is_valid():
         form.save()
+        actions = request.session.get('actions', [])
+        actions += [f"You edited teacher: {request.POST.get('name')}"]
+        request.session["actions"] = actions
         return redirect('teacher_list')
     ctx = {
         "model":model,
@@ -249,6 +265,9 @@ def group_edit(request,pk):
     form = GroupForm(request.POST or None, instance=model)
     if request.POST and form.is_valid():
         form.save()
+        actions = request.session.get('actions', [])
+        actions += [f"You edited group: {request.POST.get('name')}"]
+        request.session["actions"] = actions
         return redirect('group_list')
     ctx = {
         "model":model,
@@ -290,6 +309,9 @@ def student_edit(request,pk):
     form = StudentForm(request.POST or None,request.FILES or None, instance=model)
     if request.POST and form.is_valid():
         form.save()
+        actions = request.session.get('actions', [])
+        actions += [f"You edited student: {request.POST.get('name')}"]
+        request.session["actions"] = actions
         return redirect('student_list')
     ctx = {
         "model":model,
